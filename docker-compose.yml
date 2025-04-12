@@ -21,8 +21,8 @@ services:
       - .env
     depends_on:
       - db
-    volumes:
-      - ./backend:/app
+    #volumes:
+    #  - ./backend:/app
     command: npm run start:dev
 
   frontend:

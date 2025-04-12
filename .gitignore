@@ -28,4 +28,6 @@ backend/node_modules/
 backend/dist/
 backend/build/
 backend/prisma/dev.db
-backend/prisma/migrations/
+backend/prisma/migrations
+
+maquettes/
