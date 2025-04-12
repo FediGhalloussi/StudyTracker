@@ -1,14 +1,19 @@
-
-import { Resolver, Query } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Task } from './task.model';
-import { PrismaService } from '../prisma/prisma.service';
+import { CreateTaskInput } from './task.input';
+import { TaskService } from './task.service';
 
 @Resolver(() => Task)
 export class TaskResolver {
-  constructor(private prisma: PrismaService) {}
+  constructor(private taskService: TaskService) {}
 
   @Query(() => [Task])
   async getTasks(): Promise<Task[]> {
-    return this.prisma.task.findMany();
+    return this.taskService.getTasks();
+  }
+
+  @Mutation(() => Task)
+  async createTask(@Args('data') data: CreateTaskInput): Promise<Task> {
+    return this.taskService.createTask(data);
   }
 }
