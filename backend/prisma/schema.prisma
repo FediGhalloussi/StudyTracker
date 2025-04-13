@@ -66,6 +66,16 @@ model Exam {
   tasks Task[]
 }
 
+model RevisionPlan {
+  id        String   @id @default(uuid())
+  title     String
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+
+  tasks Task[]
+}
+
 model Task {
   id          String   @id @default(uuid())
   title       String
@@ -83,14 +93,4 @@ model Task {
 
   exam   Exam?   @relation(fields: [examId], references: [id])
   examId String?
-}
-
-model RevisionPlan {
-  id        String   @id @default(uuid())
-  title     String
-  startDate DateTime
-  endDate   DateTime
-  createdAt DateTime @default(now())
-
-  tasks Task[]
 }
