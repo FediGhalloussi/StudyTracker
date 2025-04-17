@@ -27,6 +27,10 @@ export class TaskService {
     });
   }
 
+  async delete(id: string): Promise<boolean> {
+    await this.prisma.task.delete({ where: { id } });
+    return true;
+  }
   async getTasksByDate(dateStr: string): Promise<Task[]> {
     const start = new Date(dateStr);
     const end = new Date(dateStr);

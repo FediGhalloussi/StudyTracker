@@ -17,4 +17,9 @@ export class AssignmentResolver {
   createAssignment(@Args('data') data: CreateAssignmentInput) {
     return this.service.create(data);
   }
+
+  @Mutation(() => Boolean)
+  async deleteAssignment(@Args('id') id: string): Promise<boolean> {
+    return this.service.delete(id);
+  }
 }

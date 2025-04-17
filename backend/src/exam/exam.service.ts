@@ -24,4 +24,9 @@ export class ExamService {
       },
     });
   }
+
+  async delete(id: string): Promise<boolean> {
+    await this.prisma.exam.delete({ where: { id } });
+    return true;
+  }
 }

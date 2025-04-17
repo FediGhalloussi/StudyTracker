@@ -8,3 +8,7 @@ query GetAllExams {
     }
   }
 }
+
+mutation DeleteExam($id: String!) {
+  delete(id: $id)
+}

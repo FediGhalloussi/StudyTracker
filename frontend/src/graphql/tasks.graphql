@@ -18,3 +18,7 @@ query GetTasksByDate($date: String!) {
     done
   }
 }
+
+mutation DeleteTasks($id: String!) {
+  delete(id: $id)
+}

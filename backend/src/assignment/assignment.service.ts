@@ -24,4 +24,9 @@ export class AssignmentService {
       },
     });
   }
+
+  async delete(id: string): Promise<boolean> {
+    await this.prisma.assignment.delete({ where: { id } });
+    return true;
+  }
 }

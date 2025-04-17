@@ -5,7 +5,12 @@ query GetAllAssignments {
     dueAt
     status
     subject {
+      id
       name
     }
   }
+}
+
+mutation DeleteAssignment($id: String!) {
+  deleteAssignment(id: $id)
 }

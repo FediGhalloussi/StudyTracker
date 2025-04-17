@@ -17,4 +17,8 @@ export class ExamResolver {
   createExam(@Args('data') data: CreateExamInput) {
     return this.service.create(data);
   }
+  @Mutation(() => Boolean)
+  async delete(@Args('id') id: string): Promise<boolean> {
+    return this.service.delete(id);
+  }
 }
