@@ -12,6 +12,12 @@ export class SubjectService {
     }
 
     async createSubject(data: CreateSubjectInput): Promise<Subject> {
-        return this.prisma.subject.create({ data });
+        return this.prisma.subject.create({
+            data: {
+                name: data.name,
+                color: data.color || '#3B82F6',
+                icon: data.icon || '📘',
+            },
+        });
     }
 }

@@ -1,0 +1,18 @@
+mutation CreateTask($title: String!, $type: String!, $scheduledAt: String!, $duration: Float!, $revisionPlanId: ID, $assignmentId: ID, $examId: ID) {
+  createTask(data: {
+    title: $title
+    type: $type
+    scheduledAt: $scheduledAt
+    duration: $duration
+    done: false
+    revisionPlanId: $revisionPlanId
+    assignmentId: $assignmentId
+    examId: $examId
+  }) {
+    id
+    title
+    type
+    scheduledAt
+    duration
+  }
+}

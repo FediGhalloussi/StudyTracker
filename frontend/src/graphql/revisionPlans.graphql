@@ -1,0 +1,15 @@
+query GetAllRevisionPlans {
+  getAllRevisionPlans {
+    id
+    title
+    startDate
+    endDate
+    tasks {
+      id
+      title
+      type
+      scheduledAt
+      duration
+    }
+  }
+}

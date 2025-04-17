@@ -9,10 +9,16 @@ export class ChapterService {
   constructor(private prisma: PrismaService) {}
 
   async getAll(): Promise<Chapter[]> {
-    return this.prisma.chapter.findMany();
+    return this.prisma.chapter.findMany({
+      include: { subject: true }
+    });
   }
 
   async create(data: CreateChapterInput): Promise<Chapter> {
-    return this.prisma.chapter.create({ data });
+    return this.prisma.chapter.create({
+      data,
+      include: { subject: true },
+    });
   }
+
 }

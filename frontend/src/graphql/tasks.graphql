@@ -1,0 +1,20 @@
+query GetTasks {
+  getAllTasks {
+    id
+    title
+    type
+    scheduledAt
+    duration
+    done
+  }
+}
+
+query GetTasksByDate($date: String!) {
+  getTasksByDate(date: $date) {
+    id
+    title
+    scheduledAt
+    duration
+    done
+  }
+}

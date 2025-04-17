@@ -21,7 +21,7 @@ export class Task {
   duration!: number; // minutes
 
   @Field()
-  done!: boolean;
+  done?: boolean;
 
   @Field()
   createdAt!: Date;

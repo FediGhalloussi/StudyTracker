@@ -1,0 +1,13 @@
+query GetAtAGlance {
+  getAllTasks {
+    done
+    duration
+    scheduledAt
+  }
+  getAllExams {
+    date
+  }
+  getAllAssignments {
+    dueAt
+  }
+}

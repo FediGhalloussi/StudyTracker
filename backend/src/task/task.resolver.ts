@@ -17,4 +17,10 @@ export class TaskResolver {
   createTask(@Args('data') data: CreateTaskInput) {
     return this.service.create(data);
   }
+
+  @Query(() => [Task])
+  getTasksByDate(@Args('date') date: string) {
+    return this.service.getTasksByDate(date);
+}
+
 }

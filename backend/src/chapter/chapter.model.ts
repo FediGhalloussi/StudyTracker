@@ -12,7 +12,7 @@ export class Chapter {
   title!: string;
 
   @Field()
-  examPassed!: boolean;
+  examPassed?: boolean;
 
   @Field()
   createdAt!: Date;

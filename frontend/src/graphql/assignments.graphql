@@ -1,0 +1,11 @@
+query GetAllAssignments {
+  getAllAssignments {
+    id
+    title
+    dueAt
+    status
+    subject {
+      name
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsNotEmpty, Matches } from 'class-validator';
+import {IsNotEmpty, IsOptional, Matches} from 'class-validator';
 
 @InputType()
 export class CreateSubjectInput {
@@ -8,13 +8,13 @@ export class CreateSubjectInput {
     name!: string;
 
     @Field()
-    @IsNotEmpty({ message: 'La couleur ne peut pas être vide' })
+    @IsOptional()
     @Matches(/^#(?:[0-9a-fA-F]{3}){1,2}$/, {
         message: 'Le code couleur doit être au format hexadécimal (ex: #FF9900)',
     })
-    color!: string;
+    color?: string ;
 
     @Field()
-    @IsNotEmpty({ message: "L'icône ne peut pas être vide" })
-    icon!: string;
+    @IsOptional()
+    icon?: string;
 }

@@ -1,0 +1,11 @@
+query GetAllChapters {
+  getAllChapters {
+    id
+    title
+    examPassed
+    subject {
+      id
+      name
+    }
+  }
+}

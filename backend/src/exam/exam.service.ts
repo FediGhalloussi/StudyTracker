@@ -9,10 +9,19 @@ export class ExamService {
   constructor(private prisma: PrismaService) {}
 
   async getAll(): Promise<Exam[]> {
-    return this.prisma.exam.findMany();
+    return this.prisma.exam.findMany({
+      include: {
+        subject: true,
+      },
+    });
   }
 
   async create(data: CreateExamInput): Promise<Exam> {
-    return this.prisma.exam.create({ data });
+    return this.prisma.exam.create({
+      data,
+      include: {
+        subject: true,
+      },
+    });
   }
 }

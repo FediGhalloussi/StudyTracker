@@ -10,13 +10,18 @@ export class AssignmentService {
 
   async getAll(): Promise<Assignment[]> {
     return this.prisma.assignment.findMany({
-      include: { // à changer selon les besoins du front
+      include: {
         subject: true,
       },
     });
   }
 
   async create(data: CreateAssignmentInput): Promise<Assignment> {
-    return this.prisma.assignment.create({ data });
+    return this.prisma.assignment.create({
+      data,
+      include: {
+        subject: true,
+      },
+    });
   }
 }

@@ -1,0 +1,12 @@
+mutation CreateRevisionPlan($title: String!, $startDate: String!, $endDate: String!) {
+  createRevisionPlan(data: {
+    title: $title
+    startDate: $startDate
+    endDate: $endDate
+  }) {
+    id
+    title
+    startDate
+    endDate
+  }
+}

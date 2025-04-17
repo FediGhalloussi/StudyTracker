@@ -1,0 +1,12 @@
+mutation CreateSubject($name: String!, $color: String!, $icon: String!) {
+  createSubject(data: {
+    name: $name
+    color: $color
+    icon: $icon
+  }) {
+    id
+    name
+    color
+    icon
+  }
+}

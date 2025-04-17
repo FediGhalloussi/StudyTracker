@@ -1,0 +1,10 @@
+query GetAllExams {
+  getAllExams {
+    id
+    date
+    duration
+    subject {
+      name
+    }
+  }
+}

@@ -9,7 +9,11 @@ export class RevisionPlanService {
   constructor(private prisma: PrismaService) {}
 
   async getAll(): Promise<RevisionPlan[]> {
-    return this.prisma.revisionPlan.findMany();
+    return this.prisma.revisionPlan.findMany({
+      include: {
+        tasks: true,
+      },
+    });
   }
 
   async create(data: CreateRevisionPlanInput): Promise<RevisionPlan> {

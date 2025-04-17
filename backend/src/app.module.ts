@@ -9,6 +9,7 @@ import { ChapterModule } from './chapter/chapter.module';
 import { AssignmentModule } from './assignment/assignment.module';
 import { ExamModule } from './exam/exam.module';
 import { RevisionPlanModule } from './revision-plan/revision-plan.module';
+import '../prisma/enums.graphql';
 
 @Module({
   imports: [

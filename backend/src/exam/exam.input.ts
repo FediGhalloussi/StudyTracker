@@ -1,11 +1,14 @@
 import { InputType, Field, ID } from '@nestjs/graphql';
-import {IsUUID, IsDateString, IsInt, Min, IsOptional} from 'class-validator';
+import {IsUUID, IsDateString, IsInt, Min, IsOptional, IsDate} from 'class-validator';
+import {Type} from "class-transformer";
 
 @InputType()
 export class CreateExamInput {
   @Field()
-  @IsDateString({}, { message: 'La date doit être au format ISO valide' })
-  date!: string;
+  @Type(() => Date) // transforme une string en Date
+  @IsDate({ message: "Date must be a valid ISO 8601 date string" })
+  date!: Date;
+
 
   @Field()
   @IsInt({ message: 'La durée doit être un entier' })

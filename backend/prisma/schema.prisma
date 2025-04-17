@@ -12,11 +12,17 @@ enum TaskType {
   EXAM
 }
 
+enum Status {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
 model Subject {
   id        String   @id @default(uuid())
   name      String
-  color     String // ex: "#FF9900"
-  icon      String
+  color     String? // ex: "#FF9900"
+  icon      String?
   createdAt DateTime @default(now())
 
   chapters    Chapter[]
@@ -40,6 +46,7 @@ model Assignment {
   id        String   @id @default(uuid())
   title     String
   dueAt     DateTime
+  status    Status
   createdAt DateTime @default(now())
 
   subject   Subject @relation(fields: [subjectId], references: [id])

@@ -1,0 +1,16 @@
+mutation CreateAssignment($title: String!, $dueAt: String!, $subjectId: ID!, $chapterId: ID, $status: Status!) {
+  createAssignment(data: {
+    title: $title
+    dueAt: $dueAt
+    subjectId: $subjectId
+    chapterId: $chapterId
+    status: $status
+  }) {
+    id
+    title
+    dueAt
+    subject {
+      name
+    }
+  }
+}

@@ -1,0 +1,15 @@
+mutation CreateExam($date: DateTime!, $duration: Float!, $subjectId: ID!, $chapterId: ID) {
+  createExam(data: {
+    date: $date
+    duration: $duration
+    subjectId: $subjectId
+    chapterId: $chapterId
+  }) {
+    id
+    date
+    duration
+    subject {
+      name
+    }
+  }
+}

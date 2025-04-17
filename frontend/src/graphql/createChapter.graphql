@@ -1,0 +1,14 @@
+mutation CreateChapter($title: String!, $examPassed: Boolean!, $subjectId: ID!) {
+  createChapter(data: {
+    title: $title
+    examPassed: $examPassed
+    subjectId: $subjectId
+  }) {
+    id
+    title
+    examPassed
+    subject {
+      name
+    }
+  }
+}

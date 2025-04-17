@@ -20,10 +20,27 @@ export class TaskService {
         type: data.type as TaskType,
         scheduledAt: new Date(data.scheduledAt),
         duration: data.duration,
-        done: data.done,
         ...(data.examId ? { examId: data.examId } : {}),
         ...(data.assignmentId ? { assignmentId: data.assignmentId } : {}),
         ...(data.revisionPlanId ? { revisionPlanId: data.revisionPlanId } : {}),
+      },
+    });
+  }
+
+  async getTasksByDate(dateStr: string): Promise<Task[]> {
+    const start = new Date(dateStr);
+    const end = new Date(dateStr);
+    end.setDate(end.getDate() + 1);
+
+    return this.prisma.task.findMany({
+      where: {
+        scheduledAt: {
+          gte: start,
+          lt: end,
+        },
+      },
+      orderBy: {
+        scheduledAt: 'asc',
       },
     });
   }

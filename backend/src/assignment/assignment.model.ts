@@ -2,6 +2,7 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Subject } from '../subject/subject.model';
 import { Chapter } from '../chapter/chapter.model';
 import { Task } from '../task/task.model';
+import { Status } from '@prisma/client';
 
 @ObjectType()
 export class Assignment {
@@ -16,6 +17,9 @@ export class Assignment {
 
   @Field()
   createdAt!: Date;
+
+  @Field(() => Status)
+  status!: Status;
 
   @Field(() => Subject)
   subject!: Subject;

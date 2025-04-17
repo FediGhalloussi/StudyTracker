@@ -11,11 +11,11 @@ export class Subject {
     @Field()
     name!: string;
 
-    @Field()
-    color!: string;
+    @Field({ nullable: true })
+    color?: string;
 
-    @Field()
-    icon!: string;
+    @Field({ nullable: true })
+    icon?: string;
 
     @Field()
     createdAt!: Date;
