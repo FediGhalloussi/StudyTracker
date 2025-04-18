@@ -1,27 +1,25 @@
-import {useGetAtAGlanceQuery} from "../../generated/graphql.ts";
-import {DataSection} from "../ui";
-import {getTaskStatus} from "../../utils.ts";
+import { useGetAtAGlanceQuery } from '../../generated/graphql.ts';
+import { DataSection } from '../ui';
+import { getTaskStatus } from '../../utils.ts';
 
 export function AtAGlance() {
-    const {data, loading, error} =useGetAtAGlanceQuery();
+    const { data, loading, error } = useGetAtAGlanceQuery();
     const tasks = data?.getAllTasks || [];
     const exams = data?.getAllExams || [];
     const assigments = data?.getAllAssignments || [];
 
-    if (loading) return <p>Chargement...</p>;
-    if (error) return <p>Erreur : {error.message}</p>;
+    if (loading) return <p className="text-zinc-600 dark:text-zinc-300">Chargement...</p>;
+    if (error) return <p className="text-red-500">Erreur : {error.message}</p>;
 
-    const tasksDue = tasks.filter((task: any) => getTaskStatus(task) != 'done').length;
+    const tasksDue = tasks.filter((task: any) => getTaskStatus(task) !== 'done').length;
 
     const today = new Date();
     const upcomingExams = exams.filter((exam: any) => new Date(exam.date) > today).length;
-    const upcomingAssignments = assigments.filter((assignment: any) => new Date(assignment.dueAt) > today).length;
-
+    const upcomingAssignments = assigments.filter((a: any) => new Date(a.dueAt) > today).length;
 
     const totalMinutes = tasks
-        .filter((task: any) => getTaskStatus(task) == 'done')
+        .filter((task: any) => getTaskStatus(task) === 'done')
         .reduce((sum: number, task: any) => sum + task.duration, 0);
-
 
     const hoursStudied = Math.round(totalMinutes / 60);
 
@@ -29,50 +27,45 @@ export function AtAGlance() {
         {
             count: tasksDue,
             label: 'Tasks\nDue',
-            color: 'bg-red-50/40 text-black',
-            colorRound: 'bg-red-100/75 text-red-700',
+            color: 'bg-red-50 dark:bg-red-900/40 text-red-900 dark:text-red-200',
+            colorRound: 'bg-red-100 dark:bg-red-700 text-red-700 dark:text-white',
         },
         {
             count: upcomingExams,
             label: 'Upcoming\nExams',
-            color: 'bg-blue-50/40 text-black',
-            colorRound: 'bg-blue-100/75 text-blue-700',
+            color: 'bg-blue-50 dark:bg-blue-900/40 text-blue-900 dark:text-blue-200',
+            colorRound: 'bg-blue-100 dark:bg-blue-700 text-blue-700 dark:text-white',
         },
         {
             count: hoursStudied,
             label: 'Hours\nStudied',
-            color: 'bg-green-50/40 text-black',
-            colorRound: 'bg-green-100/75 text-green-700',
+            color: 'bg-green-50 dark:bg-green-900/40 text-green-900 dark:text-green-200',
+            colorRound: 'bg-green-100 dark:bg-green-700 text-green-700 dark:text-white',
         },
     ];
 
     return (
-
-        <DataSection title="At A Glance" loading={loading} error={error}>
-            <h2 className="text-2xl font-semibold mb-4">At a Glance</h2>
+        <DataSection title="At a Glance" loading={loading} error={error}>
+            <h2 className="text-2xl font-semibold text-zinc-800 dark:text-white mb-4">
+                At a Glance
+            </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 {blocks.map((item) => (
                     <div
                         key={item.label}
-                        className={`aspect-square border border-gray-50 rounded-xl shadow p-2 px-4 flex flex-col items-start justify-start text-start ${item.color}`}
+                        className={`aspect-square rounded-xl shadow border border-zinc-200 dark:border-zinc-700 p-4 flex flex-col items-start justify-start ${item.color}`}
                     >
                         <div
-                            className={`text-2xl rounded-full px-4 py-2 mb-3 ${item.colorRound}`}
+                            className={`text-3xl font-bold rounded-full px-4 py-2 mb-3 ${item.colorRound}`}
                         >
                             {item.count}
                         </div>
-                        <p className="text-md leading-snug">
-                            {item.label.split('\n').map((line, idx) => (
-                                <span key={idx}>
-                    {line}
-                                    <br />
-                </span>
-                            ))}
+                        <p className="text-sm font-medium leading-snug whitespace-pre-line">
+                            {item.label}
                         </p>
                     </div>
                 ))}
-
             </div>
         </DataSection>
     );
