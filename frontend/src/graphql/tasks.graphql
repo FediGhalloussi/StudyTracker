@@ -14,6 +14,7 @@ query GetTasksByDate($date: String!) {
     id
     title
     scheduledAt
+    type
     duration
     done
   }

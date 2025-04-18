@@ -46,6 +46,15 @@ export function EditableCard<T extends { id: string }>({
                                                            onEdit,
                                                            onDelete,
                                                        }: EditableCardProps<T>) {
+    const [newItemLabels, setNewItemLabels] = useState<Record<string, string>>({});
+
+    // Appeler tous les useMutation de manière statique
+    const mutationHooks = fields.map((field) => {
+        return field.mutation
+            ? useMutation(field.mutation, { refetchQueries: field.refetchQueries })
+            : [() => {}, {}];
+    });
+
     const handleChange = (key: keyof T, value: any) => {
         onChange({ ...data, [key]: value });
     };
@@ -80,21 +89,18 @@ export function EditableCard<T extends { id: string }>({
 
     return (
         <li className="bg-white border border-gray-300 p-4 rounded-lg shadow relative">
-            {fields.filter(f => f.visible?.(data) ?? true).map((field) => {
+            {fields.filter(f => f.visible?.(data) ?? true).map((field, index) => {
                 const value = data[field.key];
                 const hasError = field.required && (!value || String(value).trim() === '');
-
-                const [newItemLabel, setNewItemLabel] = useState('');
-                const [createEntity] = field.mutation
-                    ? useMutation(field.mutation, { refetchQueries: field.refetchQueries })
-                    : [() => {}];
+                const [createEntity] = mutationHooks[index];
+                const newItemLabel = newItemLabels[field.key as string] || '';
 
                 const handleCreateEntity = async () => {
                     if (!field.mutation || !field.variableName) return;
                     const res = await createEntity({ variables: { [field.variableName]: newItemLabel } });
                     const newId = Object.values(res.data)[0].id;
                     handleChange(field.key, newId);
-                    setNewItemLabel('');
+                    setNewItemLabels(prev => ({ ...prev, [field.key as string]: '' }));
                 };
 
                 return (
@@ -152,7 +158,7 @@ export function EditableCard<T extends { id: string }>({
                                             type="text"
                                             placeholder={field.addLabel}
                                             value={newItemLabel}
-                                            onChange={(e) => setNewItemLabel(e.target.value)}
+                                            onChange={(e) => setNewItemLabels(prev => ({ ...prev, [field.key as string]: e.target.value }))}
                                             className="flex-1 p-2 border rounded"
                                         />
                                         <button

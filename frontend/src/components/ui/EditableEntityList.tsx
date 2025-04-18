@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { EditableCard } from './EditableCard';
 import { v4 as uuidv4 } from 'uuid';
-
 import { FieldDescriptor } from './EditableCard';
-
 
 interface EditableEntityListProps<T extends { id: string; isNew?: boolean }> {
     initialItems: T[];
@@ -27,29 +25,46 @@ export function EditableEntityList<T extends { id: string; isNew?: boolean }>({
     const [drafts, setDrafts] = useState<T[]>([]);
     const [editingId, setEditingId] = useState<string | null>(null);
 
-    const items = [...initialItems, ...drafts];
+    const items: T[] = [
+        ...initialItems.filter(item => !drafts.some(d => d.id === item.id)),
+        ...drafts,
+    ];
 
     const handleAdd = () => {
         const newDraft = draftFields({ id: uuidv4() });
-        setDrafts((prev) => [newDraft, ...prev]);
+        setDrafts(prev => [newDraft, ...prev]);
         setEditingId(newDraft.id);
     };
 
     const handleChange = (updated: T) => {
-        setDrafts((prev) => {
-            const exists = prev.some((d) => d.id === updated.id);
-            return exists ? prev.map((d) => (d.id === updated.id ? updated : d)) : [...prev, updated];
+        setDrafts(prev => {
+            const withoutCurrent = prev.filter(d => d.id !== updated.id);
+            return [...withoutCurrent, updated];
         });
+    };
+
+    const handleEdit = (id: string) => {
+
+        const inDrafts = drafts.find(d => d.id === id);
+        if (!inDrafts) {
+            console.log(!inDrafts);
+            const original = initialItems.find(i => i.id === id);
+            if (original) {
+                console.log(original);
+                setDrafts(prev => [...prev, { ...original, isNew: false }]);
+            }
+        }
+        setEditingId(id);
     };
 
     const handleSave = async (item: T) => {
         await onSave(item);
-        setDrafts((prev) => prev.filter((d) => d.id !== item.id));
+        setDrafts(prev => prev.filter(d => d.id !== item.id));
         setEditingId(null);
     };
 
     const handleCancel = (id: string) => {
-        setDrafts((prev) => prev.filter((d) => d.id !== id));
+        setDrafts(prev => prev.filter(d => d.id !== id));
         setEditingId(null);
     };
 
@@ -82,7 +97,7 @@ export function EditableEntityList<T extends { id: string; isNew?: boolean }>({
                         onChange={handleChange}
                         onSave={() => handleSave(item)}
                         onCancel={() => item.isNew ? handleCancel(item.id) : setEditingId(null)}
-                        onEdit={() => setEditingId(item.id)}
+                        onEdit={() => handleEdit(item.id)}
                         onDelete={() => handleDelete(item.id)}
                         fields={fields}
                         renderView={renderView}

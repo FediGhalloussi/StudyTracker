@@ -327,7 +327,7 @@ export type GetTasksByDateQueryVariables = Exact<{
 }>;
 
 
-export type GetTasksByDateQuery = { __typename?: 'Query', getTasksByDate: Array<{ __typename?: 'Task', id: string, title: string, scheduledAt: any, duration: number, done: boolean }> };
+export type GetTasksByDateQuery = { __typename?: 'Query', getTasksByDate: Array<{ __typename?: 'Task', id: string, title: string, scheduledAt: any, type: string, duration: number, done: boolean }> };
 
 export type DeleteTaskMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -975,6 +975,7 @@ export const GetTasksByDateDocument = gql`
     id
     title
     scheduledAt
+    type
     duration
     done
   }

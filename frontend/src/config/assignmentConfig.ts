@@ -10,7 +10,6 @@ export interface AssignmentDraft {
     title: string;
     dueDate: string;
     dueTime: string;
-    duration: number;
     status: 'TODO' | 'IN_PROGRESS' | 'DONE';
     subjectId: string;
     isNew?: boolean;
@@ -21,7 +20,6 @@ export const defaultAssignmentDraft = (): AssignmentDraft => ({
     title: '',
     dueDate: new Date().toISOString().split('T')[0],
     dueTime: '12:00',
-    duration: 60,
     status: 'TODO',
     subjectId: '',
     isNew: true,
@@ -34,7 +32,6 @@ export const mapFromGraphQL = (a: any): AssignmentDraft => {
         title: a.title,
         dueDate: date.toISOString().split('T')[0],
         dueTime: date.toTimeString().slice(0, 5),
-        duration: a.duration,
         status: a.status,
         subjectId: a.subject.id,
     };
@@ -46,7 +43,6 @@ export const getAssignmentFields = (
     { key: 'title', label: 'Titre', type: 'text', required: true },
     { key: 'dueDate', label: 'Date limite', type: 'date', required: true },
     { key: 'dueTime', label: 'Heure', type: 'text', required: true },
-    { key: 'duration', label: 'Durée (min)', type: 'number', required: true },
     {
         key: 'status',
         label: 'Statut',
