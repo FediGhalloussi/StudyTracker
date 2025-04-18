@@ -104,8 +104,9 @@ export type Mutation = {
   createRevisionPlan: RevisionPlan;
   createSubject: Subject;
   createTask: Task;
-  delete: Scalars['Boolean']['output'];
   deleteAssignment: Scalars['Boolean']['output'];
+  deleteExam: Scalars['Boolean']['output'];
+  deleteTask: Scalars['Boolean']['output'];
 };
 
 
@@ -139,12 +140,17 @@ export type MutationCreateTaskArgs = {
 };
 
 
-export type MutationDeleteArgs = {
+export type MutationDeleteAssignmentArgs = {
   id: Scalars['String']['input'];
 };
 
 
-export type MutationDeleteAssignmentArgs = {
+export type MutationDeleteExamArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteTaskArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -292,14 +298,14 @@ export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __type
 export type GetAllExamsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllExamsQuery = { __typename?: 'Query', getAllExams: Array<{ __typename?: 'Exam', id: string, date: any, duration: number, subject: { __typename?: 'Subject', name: string } }> };
+export type GetAllExamsQuery = { __typename?: 'Query', getAllExams: Array<{ __typename?: 'Exam', id: string, date: any, duration: number, subject: { __typename?: 'Subject', id: string, name: string } }> };
 
 export type DeleteExamMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type DeleteExamMutation = { __typename?: 'Mutation', delete: boolean };
+export type DeleteExamMutation = { __typename?: 'Mutation', deleteExam: boolean };
 
 export type GetAllRevisionPlansQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -323,12 +329,12 @@ export type GetTasksByDateQueryVariables = Exact<{
 
 export type GetTasksByDateQuery = { __typename?: 'Query', getTasksByDate: Array<{ __typename?: 'Task', id: string, title: string, scheduledAt: any, duration: number, done: boolean }> };
 
-export type DeleteTasksMutationVariables = Exact<{
+export type DeleteTaskMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type DeleteTasksMutation = { __typename?: 'Mutation', delete: boolean };
+export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask: boolean };
 
 
 export const GetAllAssignmentsDocument = gql`
@@ -759,6 +765,7 @@ export const GetAllExamsDocument = gql`
     date
     duration
     subject {
+      id
       name
     }
   }
@@ -798,7 +805,7 @@ export type GetAllExamsSuspenseQueryHookResult = ReturnType<typeof useGetAllExam
 export type GetAllExamsQueryResult = Apollo.QueryResult<GetAllExamsQuery, GetAllExamsQueryVariables>;
 export const DeleteExamDocument = gql`
     mutation DeleteExam($id: String!) {
-  delete(id: $id)
+  deleteExam(id: $id)
 }
     `;
 export type DeleteExamMutationFn = Apollo.MutationFunction<DeleteExamMutation, DeleteExamMutationVariables>;
@@ -1006,34 +1013,34 @@ export type GetTasksByDateQueryHookResult = ReturnType<typeof useGetTasksByDateQ
 export type GetTasksByDateLazyQueryHookResult = ReturnType<typeof useGetTasksByDateLazyQuery>;
 export type GetTasksByDateSuspenseQueryHookResult = ReturnType<typeof useGetTasksByDateSuspenseQuery>;
 export type GetTasksByDateQueryResult = Apollo.QueryResult<GetTasksByDateQuery, GetTasksByDateQueryVariables>;
-export const DeleteTasksDocument = gql`
-    mutation DeleteTasks($id: String!) {
-  delete(id: $id)
+export const DeleteTaskDocument = gql`
+    mutation DeleteTask($id: String!) {
+  deleteTask(id: $id)
 }
     `;
-export type DeleteTasksMutationFn = Apollo.MutationFunction<DeleteTasksMutation, DeleteTasksMutationVariables>;
+export type DeleteTaskMutationFn = Apollo.MutationFunction<DeleteTaskMutation, DeleteTaskMutationVariables>;
 
 /**
- * __useDeleteTasksMutation__
+ * __useDeleteTaskMutation__
  *
- * To run a mutation, you first call `useDeleteTasksMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteTasksMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTaskMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteTasksMutation, { data, loading, error }] = useDeleteTasksMutation({
+ * const [deleteTaskMutation, { data, loading, error }] = useDeleteTaskMutation({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useDeleteTasksMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTasksMutation, DeleteTasksMutationVariables>) {
+export function useDeleteTaskMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTaskMutation, DeleteTaskMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteTasksMutation, DeleteTasksMutationVariables>(DeleteTasksDocument, options);
+        return Apollo.useMutation<DeleteTaskMutation, DeleteTaskMutationVariables>(DeleteTaskDocument, options);
       }
-export type DeleteTasksMutationHookResult = ReturnType<typeof useDeleteTasksMutation>;
-export type DeleteTasksMutationResult = Apollo.MutationResult<DeleteTasksMutation>;
-export type DeleteTasksMutationOptions = Apollo.BaseMutationOptions<DeleteTasksMutation, DeleteTasksMutationVariables>;
+export type DeleteTaskMutationHookResult = ReturnType<typeof useDeleteTaskMutation>;
+export type DeleteTaskMutationResult = Apollo.MutationResult<DeleteTaskMutation>;
+export type DeleteTaskMutationOptions = Apollo.BaseMutationOptions<DeleteTaskMutation, DeleteTaskMutationVariables>;

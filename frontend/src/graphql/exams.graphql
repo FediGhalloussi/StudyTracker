@@ -4,11 +4,12 @@ query GetAllExams {
     date
     duration
     subject {
+      id
       name
     }
   }
 }
 
 mutation DeleteExam($id: String!) {
-  delete(id: $id)
+  deleteExam(id: $id)
 }

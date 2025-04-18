@@ -24,7 +24,7 @@ export class TaskResolver {
     }
 
     @Mutation(() => Boolean)
-    async delete(@Args('id') id: string): Promise<boolean> {
+    async deleteTask(@Args('id') id: string): Promise<boolean> {
         return this.service.delete(id);
     }
 
