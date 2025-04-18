@@ -2,12 +2,8 @@ import { useState } from 'react';
 import { EditableCard } from './EditableCard';
 import { v4 as uuidv4 } from 'uuid';
 
-export interface FieldDescriptor<T> {
-    key: keyof T;
-    label: string;
-    type: 'text' | 'date' | 'select';
-    options?: { label: string; value: string }[];
-}
+import { FieldDescriptor } from './EditableCard';
+
 
 interface EditableEntityListProps<T extends { id: string; isNew?: boolean }> {
     initialItems: T[];

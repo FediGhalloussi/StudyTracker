@@ -7,10 +7,22 @@ export function useTaskManager(refetch: () => void) {
 
     return {
         onSave: async (task: TaskDraft) => {
-            const scheduledAt = new Date(`${task.scheduledDate}T${task.scheduledTime}:00`).toISOString();
-            await createTask({ variables: { title: task.title, scheduledAt, duration: task.duration } });
+            const scheduledAt = new Date(task.scheduledAt).toISOString();
+
+            await createTask({
+                variables: {
+                    title: task.title,
+                    type: task.type, // 🟢 nécessaire pour éviter l’erreur
+                    scheduledAt,
+                    duration: task.duration,
+                    assignmentId: task.assignmentId || null,
+                    examId: task.examId || null,
+                },
+            });
+
             await refetch();
         },
+
         onDelete: async (id: string) => {
             await deleteTask({ variables: { id } });
             await refetch();

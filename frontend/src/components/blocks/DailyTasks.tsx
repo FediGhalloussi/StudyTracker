@@ -1,6 +1,14 @@
 import { useState } from 'react';
-import { useGetTasksByDateQuery } from '../../generated/graphql';
-import { getTaskFields, defaultTaskDraft, mapFromGraphQL, TaskDraft } from '../../config/taskConfig';
+import {
+    useGetAtAGlanceQuery,
+    useGetTasksByDateQuery
+} from '../../generated/graphql';
+import {
+    getTaskFields,
+    defaultTaskDraft,
+    mapFromGraphQL,
+    TaskDraft
+} from '../../config/taskConfig';
 import { EditableEntityList } from '../ui/EditableEntityList';
 import { useTaskManager } from '../../hooks/useTaskManager';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
@@ -8,19 +16,30 @@ import { addDays, subDays, format, isToday } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-circular-progressbar/dist/styles.css';
+import { getTaskStatus } from '../../utils.ts';
 
 export function DailyTasks() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [calendarOpen, setCalendarOpen] = useState(false);
     const formattedDate = selectedDate.toISOString().split('T')[0];
 
-    const { data, refetch } = useGetTasksByDateQuery({ variables: { date: formattedDate } });
+    const { data: taskData, refetch } = useGetTasksByDateQuery({
+        variables: { date: formattedDate }
+    });
+    const { data: glanceData, loading, error } = useGetAtAGlanceQuery();
     const { onSave, onDelete } = useTaskManager(refetch);
 
-    const tasks = data?.getTasksByDate || [];
-    const completed = tasks.filter(t => t.status === 'DONE').length;
-    const percentage = tasks.length === 0 ? 100 : Math.round((completed / tasks.length) * 100);
+    if (loading) return <p>Chargement...</p>;
+    if (error || !glanceData) return <p>Erreur de chargement</p>;
+
+    const tasks = taskData?.getTasksByDate || [];
+    const completed = tasks.filter(t => getTaskStatus(t) === 'done').length;
+    const percentage =
+        tasks.length === 0 ? 100 : Math.round((completed / tasks.length) * 100);
     const mappedTasks = tasks.map(mapFromGraphQL);
+
+    const exams = glanceData.getAllExams || [];
+    const assignments = glanceData.getAllAssignments || [];
 
     return (
         <section className="bg-white rounded-xl">
@@ -53,7 +72,7 @@ export function DailyTasks() {
                         title="Tâches du jour"
                         initialItems={mappedTasks}
                         draftFields={() => defaultTaskDraft(formattedDate)}
-                        fields={getTaskFields()}
+                        fields={getTaskFields(assignments, exams)}
                         renderView={(t) => (
                             <>
                                 <h3 className="text-md font-bold">{t.title}</h3>
