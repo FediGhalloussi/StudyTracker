@@ -27,7 +27,7 @@ export const defaultTaskDraft = (): TaskDraft => ({
     id: uuidv4(),
     title: '',
     type: 'ASSIGNMENT',
-    scheduledAt: new Date().toISOString().slice(0, 16), // format 'yyyy-MM-ddTHH:mm'
+    scheduledAt: new Date().toISOString(), // format 'yyyy-MM-ddTHH:mm'
     duration: 60,
     isNew: true,
 });
@@ -37,7 +37,7 @@ export const mapFromGraphQL = (task: any): TaskDraft => {
         id: task.id,
         title: task.title,
         type: task.type,
-        scheduledAt: new Date(task.scheduledAt).toISOString().slice(0, 16),
+        scheduledAt: new Date(task.scheduledAt).toISOString(),
         duration: task.duration,
         assignmentId: task.assignment ? task.assignment.id : undefined,
         examId: task.exam ? task.exam.id : undefined,

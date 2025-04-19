@@ -15,3 +15,8 @@ export function getTaskStatus(task) {
     if (now >= start && now <= end) return 'inProgress';
     return 'upcoming';
 }
+
+export function toLocalISOString(date) {
+    console.log("toLocalISOString : " + date.toISOString());
+    return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+}

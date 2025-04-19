@@ -9,6 +9,7 @@ import {
     Trash2,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import {toLocalISOString} from "../../utils.ts";
 
 export type FieldType =
     | 'text'
@@ -145,7 +146,7 @@ export function EditableCard<T extends { id: string }>({
                                         {field.required && <span className="text-red-500 ml-1">*</span>}
                                     </label>
 
-                                    {['text', 'time', 'datetime-local', 'number'].includes(field.type) && (
+                                    {['text', 'time', 'number'].includes(field.type) && (
                                         <input
                                             type={field.type}
                                             value={(value as string) || ''}
@@ -160,10 +161,24 @@ export function EditableCard<T extends { id: string }>({
                                         />
                                     )}
 
+                                    {field.type === 'datetime-local' && (
+                                        <input
+                                            type={field.type}
+                                            value={toLocalISOString(new Date(String(value)))}
+                                            onChange={(e) => handleChange(field.key, e.target.value)}
+                                            className={`px-3 py-2 text-sm rounded-lg border shadow-sm transition focus:outline-none focus:ring-2 
+                        ${
+                                                hasError
+                                                    ? 'border-red-500 focus:ring-red-400'
+                                                    : 'border-zinc-300 focus:ring-blue-400'
+                                            }
+                        dark:bg-zinc-800 dark:border-zinc-600 dark:text-white`}
+                                        />
+                                    )}
                                     {field.type === 'date' && (
                                         <input
                                             type="date"
-                                            value={String(value).split('T')[0]}
+                                            value={toLocalISOString(new Date(String(value))).split('T')[0]}
                                             onChange={(e) => handleChange(field.key, e.target.value)}
                                             className={`px-3 py-2 text-sm rounded-lg border shadow-sm transition focus:outline-none focus:ring-2 
                         ${
@@ -274,9 +289,18 @@ export function EditableCard<T extends { id: string }>({
                 <div className="grid sm:grid-cols-2 gap-4">
                     {fields.filter(f => f.visible?.(data) ?? true).map((field) => {
                         const rawValue = data[field.key];
+                        let value = String(rawValue);
+                        console.log(field.type);
+                        if (field.type == 'date') {
+                            value = toLocalISOString(new Date(String(rawValue))).split('T')[0];
+                        }
+                        else if (field.type == 'datetime-local') {
+                            value = toLocalISOString(new Date(String(rawValue)));
+                        }
+
                         const display =
-                            field.options?.find(opt => opt.value === rawValue)?.label ??
-                            (String(rawValue) || '—');
+                            field.options?.find(opt => opt.value === value)?.label ??
+                            (String(value) || '—');
 
                         return (
                             <div key={String(field.key)} className="flex items-center gap-3">
