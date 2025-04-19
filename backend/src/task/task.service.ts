@@ -1,7 +1,7 @@
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateTaskInput } from './task.input';
+import {CreateTaskInput} from './task.input';
 import { Task } from '@prisma/client';
 import { TaskType } from '@prisma/client';
 
@@ -30,6 +30,24 @@ export class TaskService {
       },
     });
   }
+  async update(id: string, data: CreateTaskInput): Promise<Task> {
+    return this.prisma.task.update({
+      where: { id },
+      data: {
+        title: data.title,
+        type: data.type as TaskType,
+        scheduledAt: new Date(data.scheduledAt),
+        duration: data.duration,
+        ...(data.examId ? { examId: data.examId } : {}),
+        ...(data.assignmentId ? { assignmentId: data.assignmentId } : {}),
+        ...(data.revisionPlanId ? { revisionPlanId: data.revisionPlanId } : {}),
+      },
+      include: {
+        assignment: true,
+        exam: true
+      },    });
+  }
+
 
   async delete(id: string): Promise<boolean> {
     await this.prisma.task.delete({ where: { id } });

@@ -107,6 +107,9 @@ export type Mutation = {
   deleteAssignment: Scalars['Boolean']['output'];
   deleteExam: Scalars['Boolean']['output'];
   deleteTask: Scalars['Boolean']['output'];
+  updateAssignment: Assignment;
+  updateExam: Exam;
+  updateTask: Task;
 };
 
 
@@ -152,6 +155,24 @@ export type MutationDeleteExamArgs = {
 
 export type MutationDeleteTaskArgs = {
   id: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateAssignmentArgs = {
+  id: Scalars['String']['input'];
+  input: CreateAssignmentInput;
+};
+
+
+export type MutationUpdateExamArgs = {
+  id: Scalars['String']['input'];
+  input: CreateExamInput;
+};
+
+
+export type MutationUpdateTaskArgs = {
+  id: Scalars['String']['input'];
+  input: CreateTaskInput;
 };
 
 export type Query = {
@@ -245,6 +266,14 @@ export type CreateAssignmentMutationVariables = Exact<{
 
 export type CreateAssignmentMutation = { __typename?: 'Mutation', createAssignment: { __typename?: 'Assignment', id: string, title: string, dueAt: any, subject: { __typename?: 'Subject', name: string } } };
 
+export type UpdateAssignmentMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  input: CreateAssignmentInput;
+}>;
+
+
+export type UpdateAssignmentMutation = { __typename?: 'Mutation', updateAssignment: { __typename?: 'Assignment', id: string, title: string, dueAt: any, status: Status, subject: { __typename?: 'Subject', id: string }, chapter?: { __typename?: 'Chapter', id: string } | null } };
+
 export type CreateChapterMutationVariables = Exact<{
   title: Scalars['String']['input'];
   examPassed: Scalars['Boolean']['input'];
@@ -263,6 +292,14 @@ export type CreateExamMutationVariables = Exact<{
 
 
 export type CreateExamMutation = { __typename?: 'Mutation', createExam: { __typename?: 'Exam', id: string, date: any, duration: number, subject: { __typename?: 'Subject', name: string } } };
+
+export type UpdateExamMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  input: CreateExamInput;
+}>;
+
+
+export type UpdateExamMutation = { __typename?: 'Mutation', updateExam: { __typename?: 'Exam', id: string, date: any, duration: number, subject: { __typename?: 'Subject', id: string }, chapter?: { __typename?: 'Chapter', id: string } | null } };
 
 export type CreateRevisionPlanMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -294,6 +331,14 @@ export type CreateTaskMutationVariables = Exact<{
 
 
 export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'Task', id: string, title: string, type: string, scheduledAt: any, duration: number, exam?: { __typename?: 'Exam', id: string } | null, assignment?: { __typename?: 'Assignment', id: string, title: string } | null } };
+
+export type UpdateTaskMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  input: CreateTaskInput;
+}>;
+
+
+export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask: { __typename?: 'Task', title: string, type: string, scheduledAt: any, duration: number, done: boolean, exam?: { __typename?: 'Exam', id: string } | null, assignment?: { __typename?: 'Assignment', id: string } | null } };
 
 export type GetAllExamsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -559,6 +604,49 @@ export function useCreateAssignmentMutation(baseOptions?: Apollo.MutationHookOpt
 export type CreateAssignmentMutationHookResult = ReturnType<typeof useCreateAssignmentMutation>;
 export type CreateAssignmentMutationResult = Apollo.MutationResult<CreateAssignmentMutation>;
 export type CreateAssignmentMutationOptions = Apollo.BaseMutationOptions<CreateAssignmentMutation, CreateAssignmentMutationVariables>;
+export const UpdateAssignmentDocument = gql`
+    mutation UpdateAssignment($id: String!, $input: CreateAssignmentInput!) {
+  updateAssignment(id: $id, input: $input) {
+    id
+    title
+    dueAt
+    subject {
+      id
+    }
+    chapter {
+      id
+    }
+    status
+  }
+}
+    `;
+export type UpdateAssignmentMutationFn = Apollo.MutationFunction<UpdateAssignmentMutation, UpdateAssignmentMutationVariables>;
+
+/**
+ * __useUpdateAssignmentMutation__
+ *
+ * To run a mutation, you first call `useUpdateAssignmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAssignmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAssignmentMutation, { data, loading, error }] = useUpdateAssignmentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateAssignmentMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAssignmentMutation, UpdateAssignmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAssignmentMutation, UpdateAssignmentMutationVariables>(UpdateAssignmentDocument, options);
+      }
+export type UpdateAssignmentMutationHookResult = ReturnType<typeof useUpdateAssignmentMutation>;
+export type UpdateAssignmentMutationResult = Apollo.MutationResult<UpdateAssignmentMutation>;
+export type UpdateAssignmentMutationOptions = Apollo.BaseMutationOptions<UpdateAssignmentMutation, UpdateAssignmentMutationVariables>;
 export const CreateChapterDocument = gql`
     mutation CreateChapter($title: String!, $examPassed: Boolean!, $subjectId: ID!) {
   createChapter(
@@ -644,6 +732,48 @@ export function useCreateExamMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateExamMutationHookResult = ReturnType<typeof useCreateExamMutation>;
 export type CreateExamMutationResult = Apollo.MutationResult<CreateExamMutation>;
 export type CreateExamMutationOptions = Apollo.BaseMutationOptions<CreateExamMutation, CreateExamMutationVariables>;
+export const UpdateExamDocument = gql`
+    mutation UpdateExam($id: String!, $input: CreateExamInput!) {
+  updateExam(id: $id, input: $input) {
+    id
+    date
+    duration
+    subject {
+      id
+    }
+    chapter {
+      id
+    }
+  }
+}
+    `;
+export type UpdateExamMutationFn = Apollo.MutationFunction<UpdateExamMutation, UpdateExamMutationVariables>;
+
+/**
+ * __useUpdateExamMutation__
+ *
+ * To run a mutation, you first call `useUpdateExamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateExamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateExamMutation, { data, loading, error }] = useUpdateExamMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateExamMutation(baseOptions?: Apollo.MutationHookOptions<UpdateExamMutation, UpdateExamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateExamMutation, UpdateExamMutationVariables>(UpdateExamDocument, options);
+      }
+export type UpdateExamMutationHookResult = ReturnType<typeof useUpdateExamMutation>;
+export type UpdateExamMutationResult = Apollo.MutationResult<UpdateExamMutation>;
+export type UpdateExamMutationOptions = Apollo.BaseMutationOptions<UpdateExamMutation, UpdateExamMutationVariables>;
 export const CreateRevisionPlanDocument = gql`
     mutation CreateRevisionPlan($title: String!, $startDate: String!, $endDate: String!) {
   createRevisionPlan(
@@ -774,6 +904,50 @@ export function useCreateTaskMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateTaskMutationHookResult = ReturnType<typeof useCreateTaskMutation>;
 export type CreateTaskMutationResult = Apollo.MutationResult<CreateTaskMutation>;
 export type CreateTaskMutationOptions = Apollo.BaseMutationOptions<CreateTaskMutation, CreateTaskMutationVariables>;
+export const UpdateTaskDocument = gql`
+    mutation UpdateTask($id: String!, $input: CreateTaskInput!) {
+  updateTask(id: $id, input: $input) {
+    title
+    type
+    scheduledAt
+    duration
+    done
+    exam {
+      id
+    }
+    assignment {
+      id
+    }
+  }
+}
+    `;
+export type UpdateTaskMutationFn = Apollo.MutationFunction<UpdateTaskMutation, UpdateTaskMutationVariables>;
+
+/**
+ * __useUpdateTaskMutation__
+ *
+ * To run a mutation, you first call `useUpdateTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTaskMutation, { data, loading, error }] = useUpdateTaskMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateTaskMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTaskMutation, UpdateTaskMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateTaskMutation, UpdateTaskMutationVariables>(UpdateTaskDocument, options);
+      }
+export type UpdateTaskMutationHookResult = ReturnType<typeof useUpdateTaskMutation>;
+export type UpdateTaskMutationResult = Apollo.MutationResult<UpdateTaskMutation>;
+export type UpdateTaskMutationOptions = Apollo.BaseMutationOptions<UpdateTaskMutation, UpdateTaskMutationVariables>;
 export const GetAllExamsDocument = gql`
     query GetAllExams {
   getAllExams {

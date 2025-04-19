@@ -29,4 +29,12 @@ export class ExamService {
     await this.prisma.exam.delete({ where: { id } });
     return true;
   }
+
+
+  async update(id: string, data: CreateExamInput): Promise<Exam> {
+    return this.prisma.exam.update({ where: { id }, data,
+      include: {
+        subject: true,
+      }, });
+  }
 }

@@ -21,4 +21,13 @@ export class ExamResolver {
   async deleteExam(@Args('id') id: string): Promise<boolean> {
     return this.service.delete(id);
   }
+
+  @Mutation(() => Exam)
+  async updateExam(
+      @Args('id', { type: () => String }) id: string,
+      @Args('input') input: CreateExamInput,
+  ) {
+    return this.service.update(id, input);
+  }
+
 }

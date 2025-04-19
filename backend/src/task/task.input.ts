@@ -20,7 +20,7 @@ export class CreateTaskInput {
   @Min(1)
   duration!: number;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsBoolean({ message: 'Le champ done doit être un booléen' })
   done?: boolean;
@@ -40,3 +40,4 @@ export class CreateTaskInput {
   @IsUUID('4', { message: "L'ID de l'exam est invalide" })
   examId?: string;
 }
+

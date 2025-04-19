@@ -23,3 +23,18 @@ mutation CreateTask($title: String!, $type: String!, $scheduledAt: String!, $dur
     }
   }
 }
+mutation UpdateTask($id: String!, $input: CreateTaskInput!) {
+  updateTask(id: $id, input: $input) {
+    title
+    type
+    scheduledAt
+    duration
+    done
+    exam{
+      id
+    }
+    assignment{
+      id
+    }
+  }
+}

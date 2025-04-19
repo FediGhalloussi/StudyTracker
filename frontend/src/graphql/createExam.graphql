@@ -13,3 +13,18 @@ mutation CreateExam($date: DateTime!, $duration: Float!, $subjectId: ID!, $chapt
     }
   }
 }
+
+mutation UpdateExam($id: String!, $input: CreateExamInput!) {
+  updateExam(id: $id, input: $input) {
+    id
+    date
+    duration
+    subject {
+      id
+    }
+    chapter {
+      id
+    }
+  }
+}
+

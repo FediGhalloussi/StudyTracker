@@ -22,4 +22,13 @@ export class AssignmentResolver {
   async deleteAssignment(@Args('id') id: string): Promise<boolean> {
     return this.service.delete(id);
   }
+
+  @Mutation(() => Assignment)
+  updateAssignment(
+      @Args('id', { type: () => String }) id: string,
+      @Args('input') input: CreateAssignmentInput,
+  ) {
+    return this.service.update(id, input);
+  }
+
 }

@@ -28,4 +28,13 @@ export class TaskResolver {
         return this.service.delete(id);
     }
 
+    @Mutation(() => Task)
+    async updateTask(
+        @Args('id', { type: () => String }) id: string,
+        @Args('input') input: CreateTaskInput,
+    ): Promise<Task> {
+        return this.service.update(id, input);
+    }
+
+
 }

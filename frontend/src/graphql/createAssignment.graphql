@@ -14,3 +14,18 @@ mutation CreateAssignment($title: String!, $dueAt: String!, $subjectId: ID!, $ch
     }
   }
 }
+
+mutation UpdateAssignment($id: String!, $input: CreateAssignmentInput!) {
+  updateAssignment(id: $id, input: $input) {
+    id
+    title
+    dueAt
+    subject {
+      id
+    }
+    chapter {
+      id
+    }
+    status
+  }
+}

@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateAssignmentInput } from './assignment.input';
 import { Assignment } from '@prisma/client';
+import {CreateExamInput} from "@/src/exam/exam.input";
 
 @Injectable()
 export class AssignmentService {
@@ -29,4 +30,12 @@ export class AssignmentService {
     await this.prisma.assignment.delete({ where: { id } });
     return true;
   }
+  async update(id: string, data: CreateAssignmentInput): Promise<Assignment> {
+    return this.prisma.assignment.update({ where: { id }, data,
+      include: {
+        subject: true,
+      }, });
+  }
+
+
 }
