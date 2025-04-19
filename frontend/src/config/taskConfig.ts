@@ -37,7 +37,7 @@ export const mapFromGraphQL = (task: any): TaskDraft => {
         id: task.id,
         title: task.title,
         type: task.type,
-        scheduledAt: task.scheduledAt,
+        scheduledAt: new Date(task.scheduledAt).toISOString().slice(0, 16),
         duration: task.duration,
         assignmentId: task.assignment ? task.assignment.id : undefined,
         examId: task.exam ? task.exam.id : undefined,
