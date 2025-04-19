@@ -227,7 +227,7 @@ export type DeleteAssignmentMutation = { __typename?: 'Mutation', deleteAssignme
 export type GetAtAGlanceQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAtAGlanceQuery = { __typename?: 'Query', getAllTasks: Array<{ __typename?: 'Task', done: boolean, duration: number, scheduledAt: any }>, getAllExams: Array<{ __typename?: 'Exam', date: any }>, getAllAssignments: Array<{ __typename?: 'Assignment', dueAt: any }> };
+export type GetAtAGlanceQuery = { __typename?: 'Query', getAllTasks: Array<{ __typename?: 'Task', done: boolean, duration: number, scheduledAt: any }>, getAllExams: Array<{ __typename?: 'Exam', id: string, date: any, subject: { __typename?: 'Subject', name: string }, chapter?: { __typename?: 'Chapter', title: string } | null }>, getAllAssignments: Array<{ __typename?: 'Assignment', id: string, title: string, dueAt: any }> };
 
 export type GetAllChaptersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -293,7 +293,7 @@ export type CreateTaskMutationVariables = Exact<{
 }>;
 
 
-export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'Task', id: string, title: string, type: string, scheduledAt: any, duration: number } };
+export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'Task', id: string, title: string, type: string, scheduledAt: any, duration: number, exam?: { __typename?: 'Exam', id: string } | null, assignment?: { __typename?: 'Assignment', id: string, title: string } | null } };
 
 export type GetAllExamsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -320,14 +320,14 @@ export type GetSubjectsQuery = { __typename?: 'Query', getSubjects: Array<{ __ty
 export type GetTasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTasksQuery = { __typename?: 'Query', getAllTasks: Array<{ __typename?: 'Task', id: string, title: string, type: string, scheduledAt: any, duration: number, done: boolean }> };
+export type GetTasksQuery = { __typename?: 'Query', getAllTasks: Array<{ __typename?: 'Task', id: string, title: string, type: string, scheduledAt: any, duration: number, done: boolean, exam?: { __typename?: 'Exam', id: string } | null, assignment?: { __typename?: 'Assignment', id: string, title: string } | null }> };
 
 export type GetTasksByDateQueryVariables = Exact<{
   date: Scalars['String']['input'];
 }>;
 
 
-export type GetTasksByDateQuery = { __typename?: 'Query', getTasksByDate: Array<{ __typename?: 'Task', id: string, title: string, scheduledAt: any, type: string, duration: number, done: boolean }> };
+export type GetTasksByDateQuery = { __typename?: 'Query', getTasksByDate: Array<{ __typename?: 'Task', id: string, title: string, scheduledAt: any, type: string, duration: number, done: boolean, exam?: { __typename?: 'Exam', id: string } | null, assignment?: { __typename?: 'Assignment', id: string, title: string } | null }> };
 
 export type DeleteTaskMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -422,9 +422,18 @@ export const GetAtAGlanceDocument = gql`
     scheduledAt
   }
   getAllExams {
+    id
     date
+    subject {
+      name
+    }
+    chapter {
+      title
+    }
   }
   getAllAssignments {
+    id
+    title
     dueAt
   }
 }
@@ -723,6 +732,13 @@ export const CreateTaskDocument = gql`
     type
     scheduledAt
     duration
+    exam {
+      id
+    }
+    assignment {
+      id
+      title
+    }
   }
 }
     `;
@@ -934,6 +950,13 @@ export const GetTasksDocument = gql`
     scheduledAt
     duration
     done
+    exam {
+      id
+    }
+    assignment {
+      id
+      title
+    }
   }
 }
     `;
@@ -978,6 +1001,13 @@ export const GetTasksByDateDocument = gql`
     type
     duration
     done
+    exam {
+      id
+    }
+    assignment {
+      id
+      title
+    }
   }
 }
     `;

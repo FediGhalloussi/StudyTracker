@@ -39,8 +39,8 @@ export const mapFromGraphQL = (task: any): TaskDraft => {
         type: task.type,
         scheduledAt: task.scheduledAt,
         duration: task.duration,
-        assignmentId: task.assignmentId ?? undefined,
-        examId: task.examId ?? undefined,
+        assignmentId: task.assignment ? task.assignment.id : undefined,
+        examId: task.exam ? task.exam.id : undefined,
     };
 };
 
@@ -89,7 +89,12 @@ export const getTaskFields = (
         type: 'entity-select',
         required: false,
         visible: (data) => data.type === 'EXAM',
-        options: exams.map(e => ({ label: e.title ?? '', value: e.id })),
+        options: exams.map((e) => ({
+            label: e.chapter
+                ? `${e.subject.name} : ${e.chapter.title}`
+                : e.subject.name,
+            value: e.id,
+        })),
         mutation: CreateExamDocument,
         refetchQueries: [{ query: GetAllExamsDocument }],
         addLabel: 'Titre de l’examen',

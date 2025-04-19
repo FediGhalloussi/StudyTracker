@@ -38,9 +38,12 @@ export function DailyTasks() {
     const percentage =
         tasks.length === 0 ? 100 : Math.round((completed / tasks.length) * 100);
     const mappedTasks = tasks.map(mapFromGraphQL);
-
     const exams = glanceData.getAllExams || [];
     const assignments = glanceData.getAllAssignments || [];
+
+    const today = new Date();
+    const upcomingExams = exams.filter((exam: any) => new Date(exam.date) > today);
+    const upcomingAssignments = assignments.filter((a: any) => new Date(a.dueAt) > today);
 
     return (
         <section className="bg-white dark:bg-zinc-950 rounded-2xl shadow space-y-6">
@@ -102,7 +105,7 @@ export function DailyTasks() {
                         title="Tâches du jour"
                         initialItems={mappedTasks}
                         draftFields={() => defaultTaskDraft(formattedDate)}
-                        fields={getTaskFields(assignments, exams)}
+                        fields={getTaskFields(upcomingAssignments, upcomingExams)}
                         renderView={(t) => (
                             <>
                                 <h3 className="text-md font-bold text-zinc-800 dark:text-white">

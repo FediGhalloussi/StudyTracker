@@ -6,6 +6,13 @@ query GetTasks {
     scheduledAt
     duration
     done
+    exam{
+      id
+    }
+    assignment{
+      id
+      title
+    }
   }
 }
 
@@ -17,6 +24,13 @@ query GetTasksByDate($date: String!) {
     type
     duration
     done
+    exam{
+      id
+    }
+    assignment{
+      id
+      title
+    }
   }
 }
 

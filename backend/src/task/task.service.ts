@@ -24,6 +24,10 @@ export class TaskService {
         ...(data.assignmentId ? { assignmentId: data.assignmentId } : {}),
         ...(data.revisionPlanId ? { revisionPlanId: data.revisionPlanId } : {}),
       },
+      include: {
+        assignment: true,
+        exam: true
+      },
     });
   }
 
@@ -45,6 +49,10 @@ export class TaskService {
       },
       orderBy: {
         scheduledAt: 'asc',
+      },
+      include: {
+        assignment: true,
+        exam: true,
       },
     });
   }

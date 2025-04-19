@@ -14,5 +14,12 @@ mutation CreateTask($title: String!, $type: String!, $scheduledAt: String!, $dur
     type
     scheduledAt
     duration
+    exam{
+      id
+    }
+    assignment{
+      id
+      title
+    }
   }
 }

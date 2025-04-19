@@ -5,9 +5,19 @@ query GetAtAGlance {
     scheduledAt
   }
   getAllExams {
+    id
     date
+    subject {
+      name
+    }
+    chapter {
+      title
+    }
+
   }
   getAllAssignments {
+    id
+    title
     dueAt
   }
 }
