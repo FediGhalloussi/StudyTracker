@@ -17,6 +17,5 @@ export function getTaskStatus(task) {
 }
 
 export function toLocalISOString(date) {
-    console.log("toLocalISOString : " + date.toISOString());
     return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 }

@@ -290,7 +290,6 @@ export function EditableCard<T extends { id: string }>({
                     {fields.filter(f => f.visible?.(data) ?? true).map((field) => {
                         const rawValue = data[field.key];
                         let value = String(rawValue);
-                        console.log(field.type);
                         if (field.type == 'date') {
                             value = toLocalISOString(new Date(String(rawValue))).split('T')[0];
                         }
