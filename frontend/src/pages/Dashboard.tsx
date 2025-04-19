@@ -7,7 +7,7 @@ import { DailyTasks } from '../components/blocks/DailyTasks.tsx';
 export function Dashboard() {
     return (
         <div
-            className="bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 min-h-screen rounded-2xl my-8 mx-4 md:mx-16 shadow-xl transition-colors"
+            className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 min-h-screen rounded-2xl my-8 mx-4 md:mx-16 shadow-xl transition-colors"
             style={{ minHeight: 'calc(100vh - 4rem)' }}
         >
             <Header />

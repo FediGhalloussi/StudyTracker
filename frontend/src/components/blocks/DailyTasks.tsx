@@ -18,11 +18,14 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'react-circular-progressbar/dist/styles.css';
 import { getTaskStatus } from '../../utils.ts';
 import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react';
+import {useIsDarkMode} from "../../hooks/useIsDarkMode.ts";
 
 export function DailyTasks() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [calendarOpen, setCalendarOpen] = useState(false);
     const formattedDate = selectedDate.toISOString().split('T')[0];
+
+    const isDark = useIsDarkMode();
 
     const { data: taskData, refetch } = useGetTasksByDateQuery({
         variables: { date: formattedDate },
@@ -46,7 +49,7 @@ export function DailyTasks() {
     const upcomingAssignments = assignments.filter((a: any) => new Date(a.dueAt) > today);
 
     return (
-        <section className="bg-white dark:bg-zinc-950 rounded-2xl shadow space-y-6">
+        <section className="bg-white dark:bg-zinc-950 rounded-2xl space-y-6">
             <div className="flex items-center justify-between">
                 <button
                     onClick={() => setSelectedDate(subDays(selectedDate, 1))}
@@ -93,9 +96,9 @@ export function DailyTasks() {
                         text={`${percentage}%`}
                         styles={buildStyles({
                             textSize: '20px',
-                            textColor: '#ffffff',
+                            textColor: isDark ? '#ffffff' : '#1e293b', // zinc-900
                             pathColor: '#3b82f6', // blue-500
-                            trailColor: '#e5e7eb', // zinc-200
+                            trailColor: isDark ? '#334155' : '#e5e7eb', // zinc-800 / zinc-200
                         })}
                     />
                 </div>
