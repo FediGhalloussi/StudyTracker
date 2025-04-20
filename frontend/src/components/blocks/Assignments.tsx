@@ -1,27 +1,15 @@
 import {
     useGetAllAssignmentsQuery,
-    useDeleteAssignmentMutation,
-    useCreateAssignmentMutation,
     useGetSubjectsQuery,
-    useUpdateAssignmentMutation
 } from "../../generated/graphql";
 import { EditableEntityList } from "../ui/EditableEntityList";
 import { v4 as uuidv4 } from 'uuid';
-import {useExamManager} from "../../hooks/useExamManager.ts";
 import { useAssignmentManager } from "../../hooks/useAssignmentManager.ts";
+import {AssignmentDraft} from '../../config/assignmentConfig';
 
-interface AssignmentDraft {
-    id: string;
-    title: string;
-    dueDate: string;
-    dueTime: string;
-    status: string;
-    subjectId: string;
-    isNew?: boolean;
-}
 
 export const Assignments = () => {
-    const { data, loading, error, refetch } = useGetAllAssignmentsQuery();
+    const { data, refetch } = useGetAllAssignmentsQuery();
     const { data: subjectData } = useGetSubjectsQuery();
     const { onSave, onDelete } = useAssignmentManager(refetch);
 

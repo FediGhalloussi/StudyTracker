@@ -6,7 +6,6 @@ export function AtAGlance() {
     const { data, loading, error } = useGetAtAGlanceQuery();
     const tasks = data?.getAllTasks || [];
     const exams = data?.getAllExams || [];
-    const assigments = data?.getAllAssignments || [];
 
     if (loading) return <p className="text-zinc-600 dark:text-zinc-300">Chargement...</p>;
     if (error) return <p className="text-red-500">Erreur : {error.message}</p>;
@@ -15,7 +14,6 @@ export function AtAGlance() {
 
     const today = new Date();
     const upcomingExams = exams.filter((exam: any) => new Date(exam.date) > today).length;
-    const upcomingAssignments = assigments.filter((a: any) => new Date(a.dueAt) > today).length;
 
     const totalMinutes = tasks
         .filter((task: any) => getTaskStatus(task) === 'done')

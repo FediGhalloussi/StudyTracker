@@ -32,15 +32,15 @@ export const defaultTaskDraft = (): TaskDraft => ({
     isNew: true,
 });
 
-export const mapFromGraphQL = (task: any): TaskDraft => {
+export const mapFromGraphQL = (task: TaskDraft): TaskDraft => {
     return {
         id: task.id,
         title: task.title,
         type: task.type,
         scheduledAt: new Date(task.scheduledAt).toISOString(),
         duration: task.duration,
-        assignmentId: task.assignment ? task.assignment.id : undefined,
-        examId: task.exam ? task.exam.id : undefined,
+        assignmentId: task.assignmentId,
+        examId: task.examId
     };
 };
 

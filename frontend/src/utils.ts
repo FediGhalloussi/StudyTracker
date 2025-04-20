@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
+import {Task} from "./generated/graphql.ts";
 
-export function getTaskStatus(task) {
+export function getTaskStatus(task : Task) {
     const now = DateTime.now().setZone('Europe/Paris');
     const start = DateTime.fromISO(task.scheduledAt, { zone: 'Europe/Paris' });
 
@@ -16,6 +17,6 @@ export function getTaskStatus(task) {
     return 'upcoming';
 }
 
-export function toLocalISOString(date) {
+export function toLocalISOString(date : Date) {
     return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 }

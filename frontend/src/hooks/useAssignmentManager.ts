@@ -19,7 +19,6 @@ export function useAssignmentManager(refetch: () => void) {
                         title: assignment.title,
                         dueAt,
                         status: assignment.status,
-                        duration: assignment.duration,
                         subjectId: assignment.subjectId,
                     },
                 });
@@ -30,7 +29,6 @@ export function useAssignmentManager(refetch: () => void) {
                         title: assignment.title,
                         dueAt,
                         status: assignment.status,
-                        duration: assignment.duration,
                         subjectId: assignment.subjectId,
                         }},
                 });

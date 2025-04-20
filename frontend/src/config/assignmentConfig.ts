@@ -25,15 +25,15 @@ export const defaultAssignmentDraft = (): AssignmentDraft => ({
     isNew: true,
 });
 
-export const mapFromGraphQL = (a: any): AssignmentDraft => {
-    const date = new Date(a.dueAt);
+export const mapFromGraphQL = (a: AssignmentDraft): AssignmentDraft => {
+    const date = new Date(a.dueDate);
     return {
         id: a.id,
         title: a.title,
         dueDate: date.toISOString().split('T')[0],
         dueTime: date.toTimeString().slice(0, 5),
         status: a.status,
-        subjectId: a.subject.id,
+        subjectId: a.subjectId,
     };
 };
 

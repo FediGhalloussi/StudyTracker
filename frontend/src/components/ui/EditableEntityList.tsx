@@ -110,7 +110,7 @@ export function EditableEntityList<T extends { id: string; isNew?: boolean; dueD
                         >
                             <EditableCard<T>
                                 data={item}
-                                isEditing={editingId === item.id || item.isNew}
+                                isEditing={editingId === item.id || !!item.isNew}
                                 onChange={handleChange}
                                 onSave={() => handleSave(item)}
                                 onCancel={() =>

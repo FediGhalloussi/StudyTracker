@@ -45,8 +45,8 @@ export function DailyTasks() {
     const assignments = glanceData.getAllAssignments || [];
 
     const today = new Date();
-    const upcomingExams = exams.filter((exam: any) => new Date(exam.date) > today);
-    const upcomingAssignments = assignments.filter((a: any) => new Date(a.dueAt) > today);
+    const upcomingExams = exams.filter((exam) => new Date(exam.date) > today);
+    const upcomingAssignments = assignments.filter((a) => new Date(a.dueAt) > today);
 
     return (
         <section className="bg-white dark:bg-zinc-950 rounded-2xl space-y-6">
@@ -70,7 +70,8 @@ export function DailyTasks() {
                         <div className="absolute z-50 mt-2 left-1/2 -translate-x-1/2">
                             <DatePicker
                                 selected={selectedDate}
-                                onChange={(date: Date) => {
+                                onChange={(date: Date | null) => {
+                                    if (!date) return;
                                     setSelectedDate(date);
                                     setCalendarOpen(false);
                                 }}
@@ -107,7 +108,7 @@ export function DailyTasks() {
                     <EditableEntityList<TaskDraft>
                         title="Tâches du jour"
                         initialItems={mappedTasks}
-                        draftFields={() => defaultTaskDraft(formattedDate)}
+                        draftFields={() => defaultTaskDraft()}
                         fields={getTaskFields(upcomingAssignments, upcomingExams)}
                         renderView={(t) => (
                             <>
@@ -115,7 +116,7 @@ export function DailyTasks() {
                                     {t.title}
                                 </h3>
                                 <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                                    ⏰ {t.scheduledTime} • 🕒 {t.duration} min
+                                    ⏰ {t.scheduledAt} • 🕒 {t.duration} min
                                 </p>
                             </>
                         )}
