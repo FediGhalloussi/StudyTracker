@@ -1,4 +1,4 @@
-import { FieldDescriptor } from '../components/ui/EditableEntityList';
+import { FieldDescriptor } from '../components/ui/EditableCard';
 import {
     CreateSubjectDocument,
     GetSubjectsDocument,

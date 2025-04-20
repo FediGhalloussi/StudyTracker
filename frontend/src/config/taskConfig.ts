@@ -4,13 +4,13 @@ import {
     CreateExamDocument,
     GetAllExamsDocument
 } from '../generated/graphql';
-import { FieldDescriptor } from '../components/ui/EditableEntityList';
+import { FieldDescriptor } from '../components/ui/EditableCard';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface TaskDraft {
     id: string;
     title: string;
-    type: 'EXAM' | 'ASSIGNMENT';
+    type: string;
     scheduledAt: string;
     duration: number;
     assignmentId?: string;
@@ -90,9 +90,7 @@ export const getTaskFields = (
         required: false,
         visible: (data) => data.type === 'EXAM',
         options: exams.map((e) => ({
-            label: e.chapter
-                ? `${e.subject.name} : ${e.chapter.title}`
-                : e.subject.name,
+            label: e.title ?? '',
             value: e.id,
         })),
         mutation: CreateExamDocument,

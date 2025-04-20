@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
-import {Task} from "./generated/graphql.ts";
+import {TaskDraft} from "./config/taskConfig.ts";
 
-export function getTaskStatus(task : Task) {
+export function getTaskStatus(task : TaskDraft) {
     const now = DateTime.now().setZone('Europe/Paris');
     const start = DateTime.fromISO(task.scheduledAt, { zone: 'Europe/Paris' });
 

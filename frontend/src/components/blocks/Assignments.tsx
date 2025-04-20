@@ -1,11 +1,9 @@
-import {
-    useGetAllAssignmentsQuery,
-    useGetSubjectsQuery,
-} from "../../generated/graphql";
-import { EditableEntityList } from "../ui/EditableEntityList";
-import { v4 as uuidv4 } from 'uuid';
-import { useAssignmentManager } from "../../hooks/useAssignmentManager.ts";
+import {useGetAllAssignmentsQuery, useGetSubjectsQuery,} from "../../generated/graphql";
+import {EditableEntityList} from "../ui/EditableEntityList";
+import {v4 as uuidv4} from 'uuid';
+import {useAssignmentManager} from "../../hooks/useAssignmentManager.ts";
 import {AssignmentDraft} from '../../config/assignmentConfig';
+import { Status } from "../../generated/graphql";
 
 
 export const Assignments = () => {
@@ -39,7 +37,7 @@ export const Assignments = () => {
                 title: '',
                 dueDate: new Date().toISOString().split('T')[0],
                 dueTime: '12:00',
-                status: 'TODO',
+                status: Status.Todo,
                 subjectId: firstSubjectId,
                 isNew: true,
                 ...defaults,

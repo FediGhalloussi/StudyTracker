@@ -1,16 +1,17 @@
-import { FieldDescriptor } from '../components/ui/EditableEntityList';
+import { FieldDescriptor } from '../components/ui/EditableCard';
 import {
     CreateSubjectDocument,
     GetSubjectsDocument,
 } from '../generated/graphql';
 import { v4 as uuidv4 } from 'uuid';
+import { Status } from "../generated/graphql";
 
 export interface AssignmentDraft {
     id: string;
     title: string;
     dueDate: string;
     dueTime: string;
-    status: 'TODO' | 'IN_PROGRESS' | 'DONE';
+    status: Status;
     subjectId: string;
     isNew?: boolean;
 }
@@ -20,7 +21,7 @@ export const defaultAssignmentDraft = (): AssignmentDraft => ({
     title: '',
     dueDate: new Date().toISOString().split('T')[0],
     dueTime: '12:00',
-    status: 'TODO',
+    status: Status.Todo,
     subjectId: '',
     isNew: true,
 });
