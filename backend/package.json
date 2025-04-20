@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/main.js",
   "scripts": {
-    "start": "node dist/main",
+    "start": "node dist/src/main",
     "start:dev": "nest start --watch",
     "build": "nest build",
     "generate": "prisma generate"
