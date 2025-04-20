@@ -10,9 +10,13 @@ import { AssignmentModule } from './assignment/assignment.module';
 import { ExamModule } from './exam/exam.module';
 import { RevisionPlanModule } from './revision-plan/revision-plan.module';
 import '../prisma/enums.graphql';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // accessible partout sans devoir l’importer dans chaque module
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,

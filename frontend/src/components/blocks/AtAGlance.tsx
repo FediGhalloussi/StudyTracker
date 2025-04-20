@@ -24,26 +24,26 @@ export function AtAGlance() {
     const blocks = [
         {
             count: tasksDue,
-            label: 'Tasks\nDue',
+            label: 'Tâches\nÀ faire',
             color: 'bg-red-50 dark:bg-red-900/40 text-red-900 dark:text-red-200',
             colorRound: 'bg-red-100 dark:bg-red-700 text-red-700 dark:text-white',
         },
         {
             count: upcomingExams,
-            label: 'Upcoming\nExams',
+            label: 'Examens\nÀ venir',
             color: 'bg-blue-50 dark:bg-blue-900/40 text-blue-900 dark:text-blue-200',
             colorRound: 'bg-blue-100 dark:bg-blue-700 text-blue-700 dark:text-white',
         },
         {
             count: hoursStudied,
-            label: 'Hours\nStudied',
+            label: 'Heures\nÉtudiées',
             color: 'bg-green-50 dark:bg-green-900/40 text-green-900 dark:text-green-200',
             colorRound: 'bg-green-100 dark:bg-green-700 text-green-700 dark:text-white',
         },
     ];
 
     return (
-        <DataSection title="At a Glance" loading={loading} error={error}>
+        <DataSection title="En un coup d'oeil" loading={loading} error={error}>
             <h2 className="text-2xl font-semibold text-zinc-800 dark:text-white mb-4">
                 At a Glance
             </h2>

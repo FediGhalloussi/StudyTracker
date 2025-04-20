@@ -30,13 +30,13 @@ export const Assignments = () => {
 
     return (
         <EditableEntityList<AssignmentDraft>
-            title="Assignments"
+            title="Devoirs"
             initialItems={mappedAssignments}
             draftFields={(defaults) => ({
                 id: uuidv4(),
                 title: '',
                 dueDate: new Date().toISOString().split('T')[0],
-                dueTime: '12:00',
+                dueTime: '23:59',
                 status: Status.Todo,
                 subjectId: firstSubjectId,
                 isNew: true,
