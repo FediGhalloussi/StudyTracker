@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: 'https://study-tracker-one.vercel.app/', // autorise Vite
+    origin: 'https://study-tracker-one.vercel.app', // autorise Vite
     credentials: true,
   });
 
