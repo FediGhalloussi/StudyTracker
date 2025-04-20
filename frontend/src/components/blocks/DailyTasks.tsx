@@ -110,16 +110,6 @@ export function DailyTasks() {
                         initialItems={mappedTasks}
                         draftFields={() => defaultTaskDraft()}
                         fields={getTaskFields(upcomingAssignments, upcomingExams)}
-                        renderView={(t) => (
-                            <>
-                                <h3 className="text-md font-bold text-zinc-800 dark:text-white">
-                                    {t.title}
-                                </h3>
-                                <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                                    ⏰ {t.scheduledAt} • 🕒 {t.duration} min
-                                </p>
-                            </>
-                        )}
                         onSave={onSave}
                         onDelete={onDelete}
                     />

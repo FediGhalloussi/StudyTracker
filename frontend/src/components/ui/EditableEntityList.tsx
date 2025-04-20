@@ -9,7 +9,6 @@ interface EditableEntityListProps<T extends { id: string; isNew?: boolean; dueDa
     initialItems: T[];
     draftFields: (defaults?: Partial<T>) => T;
     fields: FieldDescriptor<T>[];
-    renderView: (item: T) => React.ReactNode;
     onSave: (item: T) => Promise<void>;
     onDelete: (id: string) => Promise<void>;
     title?: string;
@@ -19,7 +18,6 @@ export function EditableEntityList<T extends { id: string; isNew?: boolean; dueD
                                                                                                                       initialItems,
                                                                                                                       draftFields,
                                                                                                                       fields,
-                                                                                                                      renderView,
                                                                                                                       onSave,
                                                                                                                       onDelete,
                                                                                                                       title,
@@ -40,7 +38,7 @@ export function EditableEntityList<T extends { id: string; isNew?: boolean; dueD
     });
 
     const handleAdd = () => {
-        const newDraft = draftFields({ id: uuidv4() });
+        const newDraft = draftFields({ id: uuidv4() } as Partial<T>);
         setDrafts(prev => [newDraft, ...prev]);
         setEditingId(newDraft.id);
     };
@@ -119,7 +117,6 @@ export function EditableEntityList<T extends { id: string; isNew?: boolean; dueD
                                 onEdit={() => handleEdit(item.id)}
                                 onDelete={() => handleDelete(item.id)}
                                 fields={fields}
-                                renderView={renderView}
                             />
                         </motion.li>
                     ))}

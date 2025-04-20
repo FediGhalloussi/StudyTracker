@@ -23,14 +23,25 @@ export const defaultExamDraft = (): ExamDraft => ({
     isNew: true,
 });
 
-export const mapFromGraphQL = (exam: ExamDraft): ExamDraft => {
-    const date = new Date(exam.date);
+type MinimalExam = {
+    id: string;
+    date: string;
+    duration: number;
+    subject: {
+        id: string;
+        name: string;
+    };
+};
+
+export const mapFromGraphQL = (exam: MinimalExam): ExamDraft => {
+    const dateObj = new Date(exam.date);
     return {
         id: exam.id,
-        date: date.toISOString().split('T')[0],
-        time: date.toTimeString().slice(0, 5),
+        date: dateObj.toISOString().split('T')[0],
+        time: dateObj.toTimeString().slice(0, 5),
         duration: exam.duration,
-        subjectId: exam.subjectId,
+        subjectId: exam.subject.id,
+        isNew: false,
     };
 };
 

@@ -26,17 +26,6 @@ export const Exams = () => {
             initialItems={mappedExams}
             draftFields={defaultExamDraft}
             fields={getExamFields(subjects)}
-            renderView={(exam) => (
-                <>
-                    <h3 className="text-md font-bold text-gray-900">
-                        {subjects.find(s => s.id === exam.subjectId)?.name || 'Matière inconnue'}
-                    </h3>
-                    <p className="text-sm text-gray-600">
-                        🗓️ {new Date(`${exam.date}T${exam.time}`).toLocaleString()}
-                    </p>
-                    <p className="text-sm text-gray-500">⏱️ {exam.duration} min</p>
-                </>
-            )}
             onSave={onSave}
             onDelete={onDelete}
         />
