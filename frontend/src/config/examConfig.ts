@@ -61,5 +61,6 @@ export const getExamFields = (
         refetchQueries: [{ query: GetSubjectsDocument }],
         addLabel: 'Nom de la matière',
         variableName: 'name',
+        defaultVariables: { color: '#000000', icon: 'book' },
     },
 ];

@@ -41,6 +41,8 @@ export interface FieldDescriptor<T> {
     addLabel?: string;
     /** Nom de la variable dans la mutation  */
     variableName?: string;
+    /** Nom de la variable dans la mutation  */
+    defaultVariables?: any;
     /** Fonction qui détermine si le champ est visible en fonction des données */
     visible?: (data: T) => boolean;
 }
@@ -156,7 +158,7 @@ export function EditableCard<T extends { id: string }>({
 
                                 const res = await client.mutate({
                                     mutation: field.mutation,
-                                    variables: { [field.variableName]: newItemLabel },
+                                    variables: { [field.variableName]: newItemLabel , ...field.defaultVariables },
                                     refetchQueries: field.refetchQueries,
                                 });
 
