@@ -31,6 +31,7 @@ export const Assignments = () => {
     return (
         <EditableEntityList<AssignmentDraft>
             title="Devoirs"
+            noneSentence="Aucune devoir prévu."
             initialItems={mappedAssignments}
             draftFields={(defaults) => ({
                 id: uuidv4(),

@@ -23,6 +23,7 @@ export const Exams = () => {
     return (
         <EditableEntityList<ExamDraft>
             title="Examens"
+            noneSentence="Aucune examen prévu."
             initialItems={mappedExams}
             draftFields={defaultExamDraft}
             fields={getExamFields(subjects)}

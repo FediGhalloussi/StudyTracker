@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { EditableCard } from './EditableCard';
-import { v4 as uuidv4 } from 'uuid';
-import { FieldDescriptor } from './EditableCard';
-import { Plus } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import {useState} from 'react';
+import {EditableCard} from './EditableCard';
+import {v4 as uuidv4} from 'uuid';
+import {FieldDescriptor} from './EditableCard';
+import {Plus} from 'lucide-react';
+import {motion, AnimatePresence} from 'framer-motion';
 
 interface EditableEntityListProps<T extends { id: string; isNew?: boolean; dueDate?: string; dueTime?: string }> {
     initialItems: T[];
@@ -12,6 +12,7 @@ interface EditableEntityListProps<T extends { id: string; isNew?: boolean; dueDa
     onSave: (item: T) => Promise<void>;
     onDelete: (id: string) => Promise<void>;
     title?: string;
+    noneSentence?: string;
 }
 
 export function EditableEntityList<T extends { id: string; isNew?: boolean; dueDate?: string; dueTime?: string }>({
@@ -21,6 +22,7 @@ export function EditableEntityList<T extends { id: string; isNew?: boolean; dueD
                                                                                                                       onSave,
                                                                                                                       onDelete,
                                                                                                                       title,
+                                                                                                                      noneSentence,
                                                                                                                   }: EditableEntityListProps<T>) {
     const [drafts, setDrafts] = useState<T[]>([]);
     const [editingId, setEditingId] = useState<string | null>(null);
@@ -38,7 +40,7 @@ export function EditableEntityList<T extends { id: string; isNew?: boolean; dueD
     });
 
     const handleAdd = () => {
-        const newDraft = draftFields({ id: uuidv4() } as Partial<T>);
+        const newDraft = draftFields({id: uuidv4()} as Partial<T>);
         setDrafts(prev => [newDraft, ...prev]);
         setEditingId(newDraft.id);
     };
@@ -55,7 +57,7 @@ export function EditableEntityList<T extends { id: string; isNew?: boolean; dueD
         if (!inDrafts) {
             const original = initialItems.find(i => i.id === id);
             if (original) {
-                setDrafts(prev => [...prev, { ...original, isNew: false }]);
+                setDrafts(prev => [...prev, {...original, isNew: false}]);
             }
         }
         setEditingId(id);
@@ -89,39 +91,43 @@ export function EditableEntityList<T extends { id: string; isNew?: boolean; dueD
                         onClick={handleAdd}
                         className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
                     >
-                        <Plus className="w-4 h-4" />
+                        <Plus className="w-4 h-4"/>
                         Ajouter
                     </button>
                 </div>
             )}
 
-            <ul className="space-y-3">
-                <AnimatePresence>
-                    {sortedItems.map((item) => (
-                        <motion.li
-                            key={item.id}
-                            layout
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.2 }}
-                        >
-                            <EditableCard<T>
-                                data={item}
-                                isEditing={editingId === item.id || !!item.isNew}
-                                onChange={handleChange}
-                                onSave={() => handleSave(item)}
-                                onCancel={() =>
-                                    item.isNew ? handleCancel(item.id) : setEditingId(null)
-                                }
-                                onEdit={() => handleEdit(item.id)}
-                                onDelete={() => handleDelete(item.id)}
-                                fields={fields}
-                            />
-                        </motion.li>
-                    ))}
-                </AnimatePresence>
-            </ul>
+            {sortedItems.length === 0 ? (
+                <p className="text-gray-500 text-sm italic">{noneSentence}</p>
+            ) : (
+                <ul className="space-y-3">
+                    <AnimatePresence>
+                        {sortedItems.map((item) => (
+                            <motion.li
+                                key={item.id}
+                                layout
+                                initial={{opacity: 0, y: -10}}
+                                animate={{opacity: 1, y: 0}}
+                                exit={{opacity: 0, y: -10}}
+                                transition={{duration: 0.2}}
+                            >
+                                <EditableCard<T>
+                                    data={item}
+                                    isEditing={editingId === item.id || !!item.isNew}
+                                    onChange={handleChange}
+                                    onSave={() => handleSave(item)}
+                                    onCancel={() =>
+                                        item.isNew ? handleCancel(item.id) : setEditingId(null)
+                                    }
+                                    onEdit={() => handleEdit(item.id)}
+                                    onDelete={() => handleDelete(item.id)}
+                                    fields={fields}
+                                />
+                            </motion.li>
+                        ))}
+                    </AnimatePresence>
+                </ul>
+            )}
         </section>
     );
 

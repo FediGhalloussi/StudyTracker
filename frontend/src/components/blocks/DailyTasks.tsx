@@ -107,6 +107,7 @@ export function DailyTasks() {
                 <div className="flex-1">
                     <EditableEntityList<TaskDraft>
                         title="Tâches du jour"
+                        noneSentence="Aucune tâche prévue pour ce jour."
                         initialItems={mappedTasks}
                         draftFields={() => defaultTaskDraft()}
                         fields={getTaskFields(upcomingAssignments, upcomingExams)}
