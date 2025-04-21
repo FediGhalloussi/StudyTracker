@@ -24,14 +24,14 @@ export interface MinimalTask {
     scheduledAt: string;
     duration: number;
     type: string;
+    done: boolean;
     assignment?: {
         id: string;
         title?: string;
-    };
+    } | null;
     exam?: {
         id: string;
-        title?: string;
-    };
+    } | null;
 }
 
 interface RelatedOption {
