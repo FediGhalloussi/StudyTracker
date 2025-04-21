@@ -26,15 +26,28 @@ export const defaultAssignmentDraft = (): AssignmentDraft => ({
     isNew: true,
 });
 
-export const mapFromGraphQL = (a: AssignmentDraft): AssignmentDraft => {
-    const date = new Date(a.dueDate);
+type MinimalAssignment= {
+    id: string;
+    title: string;
+    dueAt: string;
+    status: Status;
+    subject : {
+        id: string;
+        name: string;
+    }
+    isNew?: boolean;
+};
+
+
+export const mapFromGraphQL = (a: MinimalAssignment): AssignmentDraft => {
+    const date = new Date(a.dueAt);
     return {
         id: a.id,
         title: a.title,
         dueDate: date.toISOString().split('T')[0],
         dueTime: date.toTimeString().slice(0, 5),
         status: a.status,
-        subjectId: a.subjectId,
+        subjectId: a.subject.id,
     };
 };
 
@@ -65,5 +78,6 @@ export const getAssignmentFields = (
         refetchQueries: [{ query: GetSubjectsDocument }],
         addLabel: 'Nom de la matière',
         variableName: 'name',
+        defaultVariables: { color: '#000000', icon: 'book' },
     },
 ];

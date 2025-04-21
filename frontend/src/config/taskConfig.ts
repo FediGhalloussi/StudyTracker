@@ -18,6 +18,22 @@ export interface TaskDraft {
     isNew?: boolean;
 }
 
+export interface MinimalTask {
+    id: string;
+    title: string;
+    scheduledAt: string;
+    duration: number;
+    type: string;
+    done: boolean;
+    assignment?: {
+        id: string;
+        title?: string;
+    } | null;
+    exam?: {
+        id: string;
+    } | null;
+}
+
 interface RelatedOption {
     id: string;
     title?: string;
@@ -32,15 +48,15 @@ export const defaultTaskDraft = (): TaskDraft => ({
     isNew: true,
 });
 
-export const mapFromGraphQL = (task: TaskDraft): TaskDraft => {
+export const mapFromGraphQL = (task: MinimalTask): TaskDraft => {
     return {
         id: task.id,
         title: task.title,
         type: task.type,
         scheduledAt: new Date(task.scheduledAt).toISOString(),
         duration: task.duration,
-        assignmentId: task.assignmentId,
-        examId: task.examId
+        assignmentId: task.assignment?.id,
+        examId: task.exam?.id,
     };
 };
 

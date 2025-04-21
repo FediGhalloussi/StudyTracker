@@ -41,6 +41,8 @@ export interface FieldDescriptor<T> {
     addLabel?: string;
     /** Nom de la variable dans la mutation  */
     variableName?: string;
+    /** Nom de la variable dans la mutation  */
+    defaultVariables?: any;
     /** Fonction qui détermine si le champ est visible en fonction des données */
     visible?: (data: T) => boolean;
 }
@@ -156,7 +158,7 @@ export function EditableCard<T extends { id: string }>({
 
                                 const res = await client.mutate({
                                     mutation: field.mutation,
-                                    variables: { [field.variableName]: newItemLabel },
+                                    variables: { [field.variableName]: newItemLabel , ...field.defaultVariables },
                                     refetchQueries: field.refetchQueries,
                                 });
 
@@ -220,17 +222,6 @@ export function EditableCard<T extends { id: string }>({
                                     )}
 
                                     {/* Champ select "simple" */}
-                                    {field.type === 'select' && field.options && (
-                                        <select
-                                            value={(value as string) || ''}
-                                            onChange={(e) => handleChange(field.key, e.target.value)}
-                                            className={`px-3 py-2 text-sm rounded-lg border shadow-sm transition focus:outline-none focus:ring-2 ${
-                                                hasError
-                                                    ? 'border-red-500 focus:ring-red-400'
-                                                    : 'border-zinc-300 focus:ring-blue-400'
-                                            } dark:bg-zinc-800 dark:border-zinc-600 dark:text-white`}
-                                        />
-                                    )}
                                     {field.type === 'select' && field.options && (
                                         <select
                                             value={(value as string) || ''}
