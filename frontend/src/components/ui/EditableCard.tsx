@@ -224,17 +224,6 @@ export function EditableCard<T extends { id: string }>({
                                         <select
                                             value={(value as string) || ''}
                                             onChange={(e) => handleChange(field.key, e.target.value)}
-                                            className={`px-3 py-2 text-sm rounded-lg border shadow-sm transition focus:outline-none focus:ring-2 ${
-                                                hasError
-                                                    ? 'border-red-500 focus:ring-red-400'
-                                                    : 'border-zinc-300 focus:ring-blue-400'
-                                            } dark:bg-zinc-800 dark:border-zinc-600 dark:text-white`}
-                                        />
-                                    )}
-                                    {field.type === 'select' && field.options && (
-                                        <select
-                                            value={(value as string) || ''}
-                                            onChange={(e) => handleChange(field.key, e.target.value)}
                                             className={`px-3 py-2 text-sm rounded-lg border shadow-sm transition focus:outline-none focus:ring-2 
                         ${
                                                 hasError
