@@ -1,18 +1,31 @@
 import { useEffect, useState } from 'react';
 
 export function useIsDarkMode(): boolean {
-    const [isDark, setIsDark] = useState(false);
+    const getCurrent = () =>
+        document.documentElement.classList.contains('dark') ||
+        window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    const [isDark, setIsDark] = useState(getCurrent);
 
     useEffect(() => {
         const root = document.documentElement;
         const observer = new MutationObserver(() => {
-            setIsDark(root.classList.contains('dark'));
+            setIsDark(getCurrent());
         });
 
         observer.observe(root, { attributes: true, attributeFilter: ['class'] });
-        setIsDark(root.classList.contains('dark'));
 
-        return () => observer.disconnect();
+        const media = window.matchMedia('(prefers-color-scheme: dark)');
+        media.addEventListener?.('change', () => {
+            setIsDark(getCurrent());
+        });
+
+        return () => {
+            observer.disconnect();
+            media.removeEventListener?.('change', () => {
+                setIsDark(getCurrent());
+            });
+        };
     }, []);
 
     return isDark;

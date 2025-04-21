@@ -1,4 +1,6 @@
 import logo from '../../assets/logo.png';
+import logoWhite from '../../assets/logo_white.png';
+import {useIsDarkMode} from "../../hooks/useIsDarkMode.ts";
 
 export function Header() {
     return (
@@ -6,7 +8,7 @@ export function Header() {
             <div className="mx-4 px-6 py-4 flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0">
                 {/* Logo + nom */}
                 <div className="flex items-center gap-3">
-                    <img src={logo} alt="Logo" className="h-10 w-auto" />
+                    <img src={useIsDarkMode() ? logoWhite : logo} alt="Logo" className="h-10 w-auto" />
                     <div className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-white">
                         StudyTracker
                     </div>
